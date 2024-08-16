@@ -1,11 +1,8 @@
 // import Footer from "../Footer";
-// import Header from "../Header";
 import dynamic from "next/dynamic";
+import Header from "../Header";
 import { Toaster } from "../ui/toaster";
 const Footer = dynamic(() => import("../Footer"), {
-  loading: () => <p>Loading...</p>,
-});
-const Header = dynamic(() => import("../Header"), {
   loading: () => <p>Loading...</p>,
 });
 

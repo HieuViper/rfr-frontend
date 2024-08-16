@@ -13,25 +13,25 @@ async function getRoomByDistrict(cityId, districtId) {
 }
 
 export default async function Home() {
-  const roomInDistrictOneData = getRoomByDistrict(50, 550);
-  const roomInDistrictThreeData = getRoomByDistrict(50, 558);
-  const roomInDistrictSevenData = getRoomByDistrict(50, 566);
-  const roomInDistrictTanbinhData = getRoomByDistrict(50, 554);
-  const roomInDistrictGoVapData = getRoomByDistrict(50, 552);
+  // const roomInDistrictOneData = getRoomByDistrict(50, 550);
+  // const roomInDistrictThreeData = getRoomByDistrict(50, 558);
+  // const roomInDistrictSevenData = getRoomByDistrict(50, 566);
+  // const roomInDistrictTanbinhData = getRoomByDistrict(50, 554);
+  // const roomInDistrictGoVapData = getRoomByDistrict(50, 552);
 
-  const [
-    roomInDistrictOne,
-    roomInDistrictThree,
-    roomInDistrictSeven,
-    roomInDistrictTanbinh,
-    roomInDistrictGoVap,
-  ] = await Promise.all([
-    roomInDistrictOneData,
-    roomInDistrictThreeData,
-    roomInDistrictSevenData,
-    roomInDistrictTanbinhData,
-    roomInDistrictGoVapData,
-  ]);
+  // const [
+  //   roomInDistrictOne,
+  //   roomInDistrictThree,
+  //   roomInDistrictSeven,
+  //   roomInDistrictTanbinh,
+  //   roomInDistrictGoVap,
+  // ] = await Promise.all([
+  //   roomInDistrictOneData,
+  //   roomInDistrictThreeData,
+  //   roomInDistrictSevenData,
+  //   roomInDistrictTanbinhData,
+  //   roomInDistrictGoVapData,
+  // ]);
 
   return (
     <>
@@ -79,7 +79,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 mt-20 ">
+      {/* <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 mt-20 ">
         <div className="mt-5 mb-5 ">
           <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide mb-2 text-[#343434]">
             Phòng trọ ở Quận 1
@@ -153,7 +153,7 @@ export default async function Home() {
         <div className=" w-full ">
           <SlideHomepage data={roomInDistrictGoVap.list} />
         </div>
-      </section>
+      </section> */}
 
       <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 md:mt-20 mt-4 ">
         <div className="mt-5 mb-5 ">
