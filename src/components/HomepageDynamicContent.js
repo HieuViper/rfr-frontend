@@ -1,12 +1,36 @@
 import SlideHomepage from "./slides/SlideHomepage";
 
-export default function HomepageDynamicContent({
-  roomInDistrictOne,
-  roomInDistrictThree,
-  roomInDistrictSeven,
-  roomInDistrictTanbinh,
-  roomInDistrictGoVap,
-}) {
+async function getRoomByDistrict(cityId, districtId) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/rooms/filter-rooms?cityId=${cityId}&districtId=${districtId}&pageIndex=1&pageSize=10`,
+    {
+      cache: "no-store",
+    }
+  );
+  return res.json();
+}
+
+export default async function HomepageDynamicContent() {
+  const roomInDistrictOneData = getRoomByDistrict(50, 550);
+  const roomInDistrictThreeData = getRoomByDistrict(50, 558);
+  const roomInDistrictSevenData = getRoomByDistrict(50, 566);
+  const roomInDistrictTanbinhData = getRoomByDistrict(50, 554);
+  const roomInDistrictGoVapData = getRoomByDistrict(50, 552);
+
+  const [
+    roomInDistrictOne,
+    roomInDistrictThree,
+    roomInDistrictSeven,
+    roomInDistrictTanbinh,
+    roomInDistrictGoVap,
+  ] = await Promise.all([
+    roomInDistrictOneData,
+    roomInDistrictThreeData,
+    roomInDistrictSevenData,
+    roomInDistrictTanbinhData,
+    roomInDistrictGoVapData,
+  ]);
+
   return (
     <>
       <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 mt-20 ">

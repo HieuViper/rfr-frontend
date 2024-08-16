@@ -23,7 +23,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { usePRouter } from "@/hooks/usePRouter";
-import { useGet } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronsUpDown, LoaderIcon } from "lucide-react";
@@ -38,7 +37,7 @@ const formSchema = z.object({
 
   type: z.string({ required_error: "Vui được chọn loại muốn tìm kiếm" }),
 });
-const FormHomepage = () => {
+const FormHomepage = ({ formData }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
   });
@@ -46,15 +45,6 @@ const FormHomepage = () => {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-
-  const {
-    data: citiesData,
-    error: isCitiesError,
-    isLoading: isCitiesLoading,
-  } = useGet(`${process.env.NEXT_PUBLIC_API_URL}/locations/cities/1`);
-
-  if (isCitiesError) return <>Failed to load</>;
-  if (isCitiesLoading) return <SkeletonComp />;
 
   function onSubmit(data) {
     // console.log(data);
@@ -84,7 +74,7 @@ const FormHomepage = () => {
                         aria-label="search"
                       >
                         {value
-                          ? citiesData.find((city) => city.id === value)?.name
+                          ? formData.find((city) => city.id === value)?.name
                           : "Bấm để chọn"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -96,13 +86,13 @@ const FormHomepage = () => {
                       <CommandList>
                         <CommandEmpty>Không tìm thấy kết quả.</CommandEmpty>
                         <CommandGroup>
-                          {citiesData.map((city) => (
+                          {formData.map((city) => (
                             <CommandItem
                               value={city.name}
                               key={city.id}
                               onSelect={(currentValue) => {
                                 form.setValue("city", city.id + "");
-                                const value = citiesData.find(
+                                const value = formData.find(
                                   (option) => option.name === currentValue
                                 )?.id;
                                 setValue(value ?? "");
@@ -195,7 +185,6 @@ export const SkeletonComp = () => {
   return (
     <div className="w-full h-[300px] flex items-center justify-center">
       <LoaderIcon className="animate-spin" />
-      123
     </div>
   );
 };

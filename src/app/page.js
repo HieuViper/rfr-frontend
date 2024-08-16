@@ -1,49 +1,26 @@
-import { SkeletonComp } from "@/components/forms/FormHomepage";
+import { SkeletonComp as SkeletonCompForm } from "@/components/forms/FormHomepage";
 import SlideHomepage from "@/components/slides/SlideHomepage";
+import { Loader2Icon } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 const HomepageDynamicContent = dynamic(
   () => import("@/components/HomepageDynamicContent"),
   {
-    loading: () => <p>Loading...</p>,
+    loading: () => (
+      <div className="w-full flex justify-center items-center">
+        <Loader2Icon />
+      </div>
+    ),
   }
 );
-const FormHomepage = dynamic(() =>
-  import("@/components/forms/FormHomepage", {
-    loading: () => <SkeletonComp />,
-  })
-);
-
-async function getRoomByDistrict(cityId, districtId) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/rooms/filter-rooms?cityId=${cityId}&districtId=${districtId}&pageIndex=1&pageSize=10`,
-    {
-      cache: "no-store",
-    }
-  );
-  return res.json();
-}
+const FormHomepage = dynamic(() => import("@/components/forms/FormHomepage"), {
+  loading: () => <SkeletonCompForm />,
+});
 
 export default async function Home() {
-  const roomInDistrictOneData = getRoomByDistrict(50, 550);
-  const roomInDistrictThreeData = getRoomByDistrict(50, 558);
-  const roomInDistrictSevenData = getRoomByDistrict(50, 566);
-  const roomInDistrictTanbinhData = getRoomByDistrict(50, 554);
-  const roomInDistrictGoVapData = getRoomByDistrict(50, 552);
-
-  const [
-    roomInDistrictOne,
-    roomInDistrictThree,
-    roomInDistrictSeven,
-    roomInDistrictTanbinh,
-    roomInDistrictGoVap,
-  ] = await Promise.all([
-    roomInDistrictOneData,
-    roomInDistrictThreeData,
-    roomInDistrictSevenData,
-    roomInDistrictTanbinhData,
-    roomInDistrictGoVapData,
-  ]);
+  const formData = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/locations/cities/1`
+  ).then((res) => res.json());
 
   return (
     <>
@@ -83,19 +60,13 @@ export default async function Home() {
 
           <div className="col-span-12 md:col-span-5 flex flex-col justify-center items-center gap-y-10 mt-10 md:mt-0">
             <div className="py-4 px-5 md:py-6 md:px-6 xl:py-6 xl:px-10 max-w-[400px] w-full rounded-3xl bg-white shadow-xl mt-18">
-              <FormHomepage />
+              <FormHomepage formData={formData} />
             </div>
           </div>
         </div>
       </section>
 
-      <HomepageDynamicContent
-        roomInDistrictGoVap={roomInDistrictGoVap}
-        roomInDistrictOne={roomInDistrictOne}
-        roomInDistrictThree={roomInDistrictThree}
-        roomInDistrictSeven={roomInDistrictSeven}
-        roomInDistrictTanbinh={roomInDistrictTanbinh}
-      />
+      <HomepageDynamicContent />
 
       <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 md:mt-20 mt-4 ">
         <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide text-[#343434] mt-5 mb-7">

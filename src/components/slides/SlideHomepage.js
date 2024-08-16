@@ -199,7 +199,7 @@ const ReviewCard = ({ data }) => {
     </div>
   );
 };
-const SkeletonComp = () => {
+export const SkeletonComp = () => {
   return (
     <div className="p-5 grid md:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-10">
       <div className="h-[400px] w-full">
