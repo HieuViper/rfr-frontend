@@ -191,10 +191,11 @@ const FormHomepage = () => {
 
 export default FormHomepage;
 
-const SkeletonComp = () => {
+export const SkeletonComp = () => {
   return (
     <div className="w-full h-[300px] flex items-center justify-center">
       <LoaderIcon className="animate-spin" />
+      123
     </div>
   );
 };

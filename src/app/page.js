@@ -1,6 +1,18 @@
-import FormHomepage from "@/components/forms/FormHomepage";
+import { SkeletonComp } from "@/components/forms/FormHomepage";
 import SlideHomepage from "@/components/slides/SlideHomepage";
+import dynamic from "next/dynamic";
 import Image from "next/image";
+const HomepageDynamicContent = dynamic(
+  () => import("@/components/HomepageDynamicContent"),
+  {
+    loading: () => <p>Loading...</p>,
+  }
+);
+const FormHomepage = dynamic(() =>
+  import("@/components/forms/FormHomepage", {
+    loading: () => <SkeletonComp />,
+  })
+);
 
 async function getRoomByDistrict(cityId, districtId) {
   const res = await fetch(
@@ -13,39 +25,37 @@ async function getRoomByDistrict(cityId, districtId) {
 }
 
 export default async function Home() {
-  // const roomInDistrictOneData = getRoomByDistrict(50, 550);
-  // const roomInDistrictThreeData = getRoomByDistrict(50, 558);
-  // const roomInDistrictSevenData = getRoomByDistrict(50, 566);
-  // const roomInDistrictTanbinhData = getRoomByDistrict(50, 554);
-  // const roomInDistrictGoVapData = getRoomByDistrict(50, 552);
+  const roomInDistrictOneData = getRoomByDistrict(50, 550);
+  const roomInDistrictThreeData = getRoomByDistrict(50, 558);
+  const roomInDistrictSevenData = getRoomByDistrict(50, 566);
+  const roomInDistrictTanbinhData = getRoomByDistrict(50, 554);
+  const roomInDistrictGoVapData = getRoomByDistrict(50, 552);
 
-  // const [
-  //   roomInDistrictOne,
-  //   roomInDistrictThree,
-  //   roomInDistrictSeven,
-  //   roomInDistrictTanbinh,
-  //   roomInDistrictGoVap,
-  // ] = await Promise.all([
-  //   roomInDistrictOneData,
-  //   roomInDistrictThreeData,
-  //   roomInDistrictSevenData,
-  //   roomInDistrictTanbinhData,
-  //   roomInDistrictGoVapData,
-  // ]);
+  const [
+    roomInDistrictOne,
+    roomInDistrictThree,
+    roomInDistrictSeven,
+    roomInDistrictTanbinh,
+    roomInDistrictGoVap,
+  ] = await Promise.all([
+    roomInDistrictOneData,
+    roomInDistrictThreeData,
+    roomInDistrictSevenData,
+    roomInDistrictTanbinhData,
+    roomInDistrictGoVapData,
+  ]);
 
   return (
     <>
       <section className="relative bg-gradient-to-b from-70% from-orange-100 via-orange-50 to-white pt-4 md:pt-20 w-full md:min-h-[65vh] min-h-[55vh] md:mb-24">
         <div className="grid grid-cols-12 m-auto w-11/12 md:w-full lg:w-11/12 px-0 md:px-6 lg:px-0  max-w-[1200px]">
           <div className="col-span-12 md:col-span-7 px-5 md:pr-5 md:pl-0">
-            <div className=" text-[#343434] mb-3 md:mb-5 lg:text-6xl md:text-5xl text-4xl font-bold xl:leading-[1.3em] lg:leading[1.2em]">
-              <h1>
-                Tìm Phòng Trọ <br /> và Nhà Trọ <br /> ở mọi nơi
-              </h1>
-            </div>
-            <div className="lg:text-2xl text-xl text-[#999999] mb-2 md:mb-5 font-medium">
-              <h2>Tìm phòng trọ và nhà trọ online</h2>
-            </div>
+            <h1 className=" text-[#343434] mb-3 md:mb-5 lg:text-6xl md:text-5xl text-4xl font-bold xl:leading-[1.3em] lg:leading[1.2em]">
+              Tìm Phòng Trọ <br /> và Nhà Trọ <br /> ở mọi nơi
+            </h1>
+            <h2 className="lg:text-2xl text-xl text-[#999999] mb-2 md:mb-5 font-medium">
+              Tìm phòng trọ và nhà trọ online
+            </h2>
 
             <div className="hidden md:flex justify-between gap-x-5 lg:gap-x-10 mt-12 max-w-[400px] lg:max-w-[500px]">
               <div className="w-full h-72 relative rounded-3xl shadow-xl">
@@ -79,89 +89,19 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 mt-20 ">
-        <div className="mt-5 mb-5 ">
-          <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide mb-2 text-[#343434]">
-            Phòng trọ ở Quận 1
-          </h2>
-          <p className="md:text-lg md:text-left text-center text-[#7b8389]">
-            Quận 1 nổi bật với các địa danh như Nhà thờ Đức Bà, Bưu điện Thành
-            phố và khu phố Tây Bùi Viện, là điểm đến sôi động và phong phú văn
-            hóa.
-          </p>
-        </div>
-        <div className=" w-full ">
-          <SlideHomepage data={roomInDistrictOne.list} />
-        </div>
-      </section>
-      <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 md:mt-20 mt-4">
-        <div className="mt-5 mb-5 ">
-          <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide mb-2 text-[#343434]">
-            Phòng trọ ở Quận 3
-          </h2>
-          <p className="md:text-lg md:text-left text-center text-[#7b8389]">
-            Nổi tiếng với các công viên rợp bóng cây và các di tích lịch sử,
-            Quận 3 cung cấp không gian sống xanh mát, yên tĩnh và đầy chất
-            lượng.
-          </p>
-        </div>
-        <div className=" w-full ">
-          <SlideHomepage data={roomInDistrictThree.list} />
-        </div>
-      </section>
-      <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 md:mt-20 mt-4">
-        <div className="mt-5 mb-5 ">
-          <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide mb-2 text-[#343434]">
-            Phòng trọ ở Quận 7
-          </h2>
-          <p className="md:text-lg md:text-left text-center text-[#7b8389]">
-            Khu đô thị Phú Mỹ Hưng hiện đại, Quận 7 cung cấp không gian sống
-            xanh, an toàn với đầy đủ tiện ích cao cấp, thích hợp cho gia đình và
-            người nước ngoài.
-          </p>
-        </div>
-        <div className=" w-full ">
-          <SlideHomepage data={roomInDistrictSeven.list} />
-        </div>
-      </section>
-      <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 md:mt-20 mt-4">
-        <div className="mt-5 mb-5 ">
-          <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide mb-2 text-[#343434]">
-            Phòng trọ ở Quận Tân Bình
-          </h2>
-          <p className="md:text-lg md:text-left text-center text-[#7b8389]">
-            Với Sân bay Tân Sơn Nhất và nhiều khu thương mại, Quận Tân Bình là
-            trung tâm giao thông và thương mại sầm uất, cung cấp đầy đủ tiện ích
-            cho cư dân.
-          </p>
-        </div>
-        <div className=" w-full ">
-          <SlideHomepage data={roomInDistrictTanbinh.list} />
-        </div>
-      </section>
-      <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 md:mt-20 mt-4">
-        <div className="mt-5 mb-5 ">
-          <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide mb-2 text-[#343434]">
-            Phòng trọ ở Quận Gò Vấp
-          </h2>
-          <p className="md:text-lg md:text-left text-center text-[#7b8389]">
-            Với nhiều trường học, công viên và các khu chợ truyền thống, Quận Gò
-            Vấp mang đến không gian sống năng động, thân thiện và đầy đủ tiện
-            ích.
-          </p>
-        </div>
-        <div className=" w-full ">
-          <SlideHomepage data={roomInDistrictGoVap.list} />
-        </div>
-      </section> */}
+      <HomepageDynamicContent
+        roomInDistrictGoVap={roomInDistrictGoVap}
+        roomInDistrictOne={roomInDistrictOne}
+        roomInDistrictThree={roomInDistrictThree}
+        roomInDistrictSeven={roomInDistrictSeven}
+        roomInDistrictTanbinh={roomInDistrictTanbinh}
+      />
 
       <section className="m-auto md:m-0 md:ml-auto md:w-[90%] w-11/12 md:mt-20 mt-4 ">
-        <div className="mt-5 mb-5 ">
-          <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide mb-2 text-[#343434]">
-            Phòng trọ ở Thành Phố Hồ Chí Minh
-          </h2>
-        </div>
-        <div className=" w-full ">
+        <h2 className="text-2xl md:text-[32px] md:text-left text-center font-semibold tracking-wide text-[#343434] mt-5 mb-7">
+          Phòng trọ ở Thành Phố Hồ Chí Minh
+        </h2>
+        <div className="w-full">
           <SlideHomepage type={"districts"} />
         </div>
       </section>
