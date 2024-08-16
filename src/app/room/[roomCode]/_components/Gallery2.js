@@ -7,12 +7,10 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-export default function Gallery({ images }) {
+export default function Gallery2({ children, images }) {
   return (
     <Dialog>
-      <DialogTrigger>
-        <span className="text-sm font-medium">Xem ảnh ({images?.length})</span>
-      </DialogTrigger>
+      <DialogTrigger className="">{children}</DialogTrigger>
       <DialogContent className="min-w-[60vw]">
         <DialogHeader>
           <DialogTitle>Ảnh Phòng</DialogTitle>
@@ -27,7 +25,7 @@ export default function Gallery({ images }) {
                   alt={image.name}
                   width={0}
                   height={0}
-                  sizes="20vw"
+                  sizes="(max-width: 768px) 80vw, 20vw"
                   style={{ width: "100%", display: "block" }}
                 />
               ))}

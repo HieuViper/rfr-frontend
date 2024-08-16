@@ -6,6 +6,7 @@ import {
   OverlayView,
   useJsApiLoader,
 } from "@react-google-maps/api";
+import Link from "next/link";
 import React from "react";
 import SlideListingPage from "../slides/SlideListingPage";
 
@@ -116,7 +117,7 @@ export default function TestGGmap2({ data }) {
 const ListItem = ({ data }) => {
   return (
     <div className="rounded cursor-pointer relative">
-      <a href={`/motel/${toSlug(data.name)}-${data.id}`} target="_blank">
+      <Link href={`/motel/${toSlug(data.name)}-${data.id}`} target="_blank">
         <div>
           <div className="h-[100px]">
             {/* swiper */}
@@ -151,7 +152,7 @@ const ListItem = ({ data }) => {
             </div>
           </div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };

@@ -95,7 +95,6 @@ const FormFilterMotels = () => {
                       control={form.control}
                       name="items"
                       render={({ field }) => {
-                        console.log("🚀 ~ FormFilterMotels ~ field:", field);
                         return (
                           <FormItem
                             key={item.id}
@@ -105,10 +104,6 @@ const FormFilterMotels = () => {
                               <Checkbox
                                 checked={field.value?.includes(item.id)}
                                 onCheckedChange={(checked) => {
-                                  console.log(
-                                    "🚀 ~ FormFilterMotels ~ checked:",
-                                    checked
-                                  );
                                   return checked
                                     ? field.onChange([...field.value, item.id])
                                     : field.onChange(

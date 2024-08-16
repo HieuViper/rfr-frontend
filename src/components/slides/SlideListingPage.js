@@ -20,7 +20,7 @@ const SlideListingPage = ({ mainImage, images }) => {
           dynamicBullets: true,
         }}
         modules={[Navigation, Pagination]}
-        className="mySwiper rounded-xl"
+        className="mySwiper rounded-t-xl"
         style={{
           "--swiper-navigation-color": "white",
           "--swiper-navigation-size": "24px",
@@ -36,7 +36,7 @@ const SlideListingPage = ({ mainImage, images }) => {
                 src={"/image/no-image.jpg"}
                 alt="anh"
                 fill
-                sizes="304px"
+                sizes="(max-width: 768px) 70vw, (max-width: 1200px) 50vw, 25vw"
                 className="object-cover rounded-xl"
               />
             </SwiperSlide>
@@ -47,8 +47,8 @@ const SlideListingPage = ({ mainImage, images }) => {
                 alt={image.name}
                 fill
                 priority
-                sizes="304px"
-                className="object-cover rounded-xl"
+                sizes="(max-width: 768px) 70vw, (max-width: 1200px) 50vw, 25vw"
+                className="object-cover rounded-t-xl"
               />
             </SwiperSlide>
           )

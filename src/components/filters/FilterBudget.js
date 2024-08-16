@@ -18,7 +18,7 @@ const FilterBudget = ({ searchParams }) => {
   const currentUrl = window.location.href;
   const [budget, setBudget] = useState([
     searchParams.priceFrom || 0,
-    searchParams.priceTo || 10000000,
+    searchParams.priceTo || 50000000,
   ]);
   const minPrice = parseInt(budget[0]);
   const maxPrice = parseInt(budget[1]);
@@ -47,8 +47,6 @@ const FilterBudget = ({ searchParams }) => {
   const handleSubmit = () => {
     const flag = handleCheckValidBudget();
     if (flag == true) {
-      console.log("ok");
-
       // delete attribute already have
       const newUrl = deleteAttributeInUrl(currentUrl, ["priceFrom", "priceTo"]);
 
@@ -96,7 +94,7 @@ const FilterBudget = ({ searchParams }) => {
             <div className="mb-7 w-11/12 md:w-8/12 m-auto">
               <Slider
                 defaultValue={[0, 5000000]}
-                max={10000000}
+                max={50000000}
                 step={100000}
                 value={budget}
                 onValueChange={(value) => {
@@ -119,7 +117,7 @@ const FilterBudget = ({ searchParams }) => {
                       value={minPrice}
                       type="number"
                       onChange={(e) => {
-                        setBudget(parseInt(e.target.value), [maxPrice]);
+                        setBudget([parseInt(e.target.value), maxPrice]);
                       }}
                     />{" "}
                     VND

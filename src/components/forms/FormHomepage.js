@@ -26,7 +26,7 @@ import { usePRouter } from "@/hooks/usePRouter";
 import { useGet } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, LoaderIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegBuilding } from "react-icons/fa";
@@ -54,10 +54,10 @@ const FormHomepage = () => {
   } = useGet(`${process.env.NEXT_PUBLIC_API_URL}/locations/cities/1`);
 
   if (isCitiesError) return <>Failed to load</>;
-  if (isCitiesLoading) return <>Loading...</>;
+  if (isCitiesLoading) return <SkeletonComp />;
 
   function onSubmit(data) {
-    console.log(data);
+    // console.log(data);
     router.push(`/rent-listings/${data.type}?cityId=${data.city}`);
   }
 
@@ -81,6 +81,7 @@ const FormHomepage = () => {
                           "w-full justify-between",
                           !value && "text-muted-foreground"
                         )}
+                        aria-label="search"
                       >
                         {value
                           ? citiesData.find((city) => city.id === value)?.name
@@ -179,7 +180,7 @@ const FormHomepage = () => {
 
         <Button
           type="submit"
-          className="w-full rounded-full font-medium text-base"
+          className="w-full rounded-full font-medium text-base "
         >
           Tìm kết quả
         </Button>
@@ -189,3 +190,11 @@ const FormHomepage = () => {
 };
 
 export default FormHomepage;
+
+const SkeletonComp = () => {
+  return (
+    <div className="w-full h-[300px] flex items-center justify-center">
+      <LoaderIcon className="animate-spin" />
+    </div>
+  );
+};

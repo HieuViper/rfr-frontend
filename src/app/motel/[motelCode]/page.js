@@ -1,7 +1,7 @@
 "use client";
 
 import Loading from "@/app/loading";
-import SlideListingPage from "@/components/slides/SlideListingPage";
+import CardRoom from "@/components/card/CardRoom";
 import TestGGmap2 from "@/components/test/TestGGmap2";
 import {
   DropdownMenu,
@@ -13,7 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useGet } from "@/lib/api";
-import { fetcher, getIdFromSlug, toSlug } from "@/lib/utils";
+import { fetcher, getIdFromSlug } from "@/lib/utils";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaWifi } from "react-icons/fa";
 import { FaSquareParking } from "react-icons/fa6";
@@ -24,11 +25,9 @@ import {
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
 import { RxCaretSort } from "react-icons/rx";
-import { TbAirConditioning, TbFridge } from "react-icons/tb";
 import useSWR from "swr";
 
-const ListRoomOfMotel = ({ params, searchParams }) => {
-  console.log("🚀 ~ ListRoomOfMotel ~ searchParams:", searchParams);
+const ListRoomOfMotel = ({ params }) => {
   const motelId = getIdFromSlug(params.motelCode);
 
   const { data, isLoading, error } = useGet(
@@ -66,45 +65,45 @@ const ListRoomOfMotel = ({ params, searchParams }) => {
 
   return (
     <>
-      <section className="min-h-96 grid grid-cols-12 justify-between">
+      <section className="min-h-[calc(100vh-72px-80px)] grid grid-cols-12 justify-between">
         <div className="p-3 md:p-5 xl:pl-10 pt-5 col-span-12 lg:col-span-8 border-b">
           <div className="mb-5">
-            <h1 className="text-black my-3 text-4xl lg:text-5xl font-semibold">
-              Nhà trọ {data.motels.motel.name}
+            <h1 className="text-black my-3 text-2xl lg:text-5xl font-semibold">
+              {data.motels.motel.name}
             </h1>
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center flex-wrap gap-1">
               <FiHome size={18} />
               <MdOutlineKeyboardArrowRight />
-              <a
+              <Link
                 href={`/rent-listings/motels?cityId=${locationList.ward.city.id}`}
                 target="_blank"
               >
                 {locationList.ward.city.name}
-              </a>
+              </Link>
               <MdOutlineKeyboardArrowRight />
-              <a
+              <Link
                 href={`/rent-listings/motels?cityId=${locationList.ward.city.id}&districtId=${locationList.ward.district.id}`}
                 target="_blank"
               >
                 {locationList.ward.district.name}
-              </a>
+              </Link>
               <MdOutlineKeyboardArrowRight />
-              <a
+              <Link
                 href={`/rent-listings/motels?cityId=${locationList.ward.city.id}&district
                 Id=${locationList.ward.district.id}&wardId=${locationList.ward.id}`}
                 target="_blank"
               >
                 {locationList.ward.name}
-              </a>
+              </Link>
               <MdOutlineKeyboardArrowRight />
-              <span>
-                {data.motels.motel.address}, Nhà trọ {data.motels.motel.name}
-              </span>
+              {data.motels.motel.address}
+              <MdOutlineKeyboardArrowRight />
+              {data.motels.motel.name}
             </div>
           </div>
 
           <div className="mb-5">
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center flex-wrap gap-x-2">
               {data?.motels.motel.isBasement && (
                 <div className="gray-chip">
                   <FaSquareParking size={18} />
@@ -130,7 +129,7 @@ const ListRoomOfMotel = ({ params, searchParams }) => {
                 </div>
               )}
             </div>
-            <div className="flex items-center gap-x-2 mt-3">
+            <div className="flex items-center flex-wrap gap-2 mt-3">
               <div className="yellow-chip">
                 Diện tích: {data.motels.motel.roomAcreageFrom} m<sup>2</sup> ~{" "}
                 {data.motels.motel.roomAcreageTo} m<sup>2</sup>
@@ -149,7 +148,11 @@ const ListRoomOfMotel = ({ params, searchParams }) => {
             <div className="mt-3">
               <i>Liên hệ:</i>{" "}
               <u>
-                <b>{data.motels.motel.contactPhone}</b>
+                <b>
+                  <a href={`tel:${data.motels.motel.contactPhone}`}>
+                    {data.motels.motel.contactPhone}
+                  </a>
+                </b>
               </u>
             </div>
           </div>
@@ -212,16 +215,22 @@ const ListRoomOfMotel = ({ params, searchParams }) => {
           </div>
 
           {data.motels.motel.rooms.length > 0 ? (
-            <ul className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 md:gap-x-5 lg:gap-y-8 xl:pr-4 gap-y-5 relative mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-3 p-4 md:p-0">
               {data.motels.motel.rooms.map((room) => (
-                <ListItem
+                <CardRoom
                   key={room.id}
-                  data={room}
-                  locationList={locationList}
-                  motelName={data.motels.motel.name}
+                  address={data.motels.motel.address}
+                  id={room.id}
+                  image={room.image}
+                  isFurnished={room.isFurnished}
+                  name={room.name}
+                  phone={room.phone}
+                  photos={room.photos}
+                  price={room.price}
+                  roomSize={room.roomSize}
                 />
               ))}
-            </ul>
+            </div>
           ) : (
             <div className="flex justify-center">
               <div className="text-center">
@@ -242,67 +251,3 @@ const ListRoomOfMotel = ({ params, searchParams }) => {
 };
 
 export default ListRoomOfMotel;
-
-const ListItem = ({ data, locationList, motelName }) => {
-  return (
-    <li className="md:col-span-1 col-span-2">
-      <div className="rounded cursor-pointer relative ">
-        <a href={`/room/phong-${toSlug(data.name)}-${data.id}`} target="_blank">
-          <div>
-            <div className="h-[250px]">
-              {/* swiper */}
-              <SlideListingPage mainImage={data.image} images={data.photos} />
-            </div>
-            {data.status === "AVAILABLE" ? (
-              <span className="bg-white text-[8pt] text-gray-600 py-[5px] px-2 rounded-full absolute top-[5px] right-[5px] z-[1] shadow-md">
-                Phòng trống
-              </span>
-            ) : (
-              <span className="bg-white text-[8pt] text-gray-600 py-[5px] px-2 rounded-full absolute top-[5px] right-[5px] z-[1] shadow-md">
-                Phòng đã cho thuê
-              </span>
-            )}
-
-            <div className="p-1 pt-1.5">
-              <div className="flex justify-between">
-                <p className="text-xs uppercase">Lorem ipsum dolor sit amet</p>
-                <div className="flex flex-wrap text-xs gap-x-1">
-                  <span className="flex items-center after-dot-break">
-                    {data?.roomSize} m<sup>2</sup>
-                  </span>
-                  {data?.isAirConditioner && (
-                    <>
-                      <span className="flex gap-x-1 items-center after-dot-break">
-                        1 <TbAirConditioning size={16} color="slate" />
-                      </span>
-                    </>
-                  )}
-                  {data?.isFridge && (
-                    <>
-                      <span className="flex gap-x-1 items-center">
-                        1 <TbFridge size={16} color="slate" />
-                      </span>
-                    </>
-                  )}
-                </div>
-              </div>
-              <p className="mt-1 font-medium text-xl">{data.name}</p>
-              <p className="text-sm text-slate-400">
-                Lorem ipsum dolor sit amet
-              </p>
-              <div className="justify-between">
-                <div className="flex mt-2 items-baseline text-xl md:text-2xl  text-teal-500 ">
-                  {data.price.toLocaleString()} VND /{" "}
-                  <span className="text-sm">tháng</span>
-                </div>
-                <p className="text-teal-500 mt-1 ml-1 text-xs capitalize">
-                  {data?.isFurnished && "Bao gồm nội thất"}
-                </p>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </li>
-  );
-};

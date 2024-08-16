@@ -88,13 +88,13 @@ const FilterAdvance = ({ searchParams }) => {
       items.map((item) => item.id)
     );
 
+    form.reset({ items: [] });
+
     router.replace(newUrl);
     setOpen(false);
   };
 
   const onSubmit = (data) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
-
     // delete attribute already have
     const newUrl = deleteAttributeInUrl(
       currentUrl,
@@ -155,7 +155,7 @@ const FilterAdvance = ({ searchParams }) => {
                                 }}
                               />
                             </FormControl>
-                            <FormLabel className="font-normal">
+                            <FormLabel className="font-medium">
                               {item.label}
                             </FormLabel>
                           </FormItem>

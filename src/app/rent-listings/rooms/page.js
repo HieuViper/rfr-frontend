@@ -1,6 +1,7 @@
 "use client";
 import Loading from "@/app/loading";
 import PaginationComp from "@/components/Pagination";
+import CardRoom from "@/components/card/CardRoom";
 import FilterAdvance from "@/components/filters/FilterAdvance";
 import FilterBudget from "@/components/filters/FilterBudget";
 import FilterLocation from "@/components/filters/FilterLocation";
@@ -246,7 +247,7 @@ const RentRoomList = ({ searchParams }) => {
       {rooms.list.length == 0 ? (
         <NoDataFound />
       ) : (
-        <div className="container my-14">
+        <div className="container my-10 md:my-14">
           {/* <section className="grid grid-cols-12 gap-5 my-14"> */}
           {/* <div className="md:col-span-8 col-span-12 px-5"> */}
           <h2 className="text-3xl leading-9 text-black mb-5 md:mb-10 text-center font-semibold">
@@ -262,7 +263,18 @@ const RentRoomList = ({ searchParams }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 2xl:gap-10">
               {!isRoomLoading &&
                 rooms.list.map((item) => (
-                  <ListItem key={item.id} data={item} />
+                  <CardRoom
+                    key={item.id}
+                    id={item.id}
+                    address={item.address}
+                    image={item.image}
+                    isFurnished={item.isFurnished}
+                    name={item.name}
+                    phone={item.phone}
+                    photos={item.photos}
+                    price={item.price}
+                    roomSize={item.roomSize}
+                  />
                 ))}
             </div>
 
@@ -274,12 +286,6 @@ const RentRoomList = ({ searchParams }) => {
               />
             </div>
           </div>
-          {/* </div> */}
-
-          {/* <div className="md:col-span-4 col-span-12">
-              <TestGGmap1 data={rooms.list} />
-            </div> */}
-          {/* </section> */}
         </div>
       )}
     </>
@@ -289,35 +295,36 @@ const RentRoomList = ({ searchParams }) => {
 export default RentRoomList;
 export const ListItem = ({ data }) => {
   return (
-    <div className="rounded cursor-pointer relative shadow transform transition duration-500 hover:scale-110">
-      <a href={`/room/${toSlug(data.name)}-${data.id}`} target="_blank">
-        <div>
-          <div className="h-[250px]">
-            {/* swiper */}
-            <SlideListingPage mainImage={data.image} images={data.photos} />
-          </div>
-          <span className="bg-white text-[8pt] text-gray-600 py-[5px] px-2 rounded-full absolute top-[5px] right-[5px] z-[1] shadow-md">
-            Còn trống
-          </span>
-          <div className="p-1 pt-1.5">
-            <div className="flex justify-between">
-              <p className="text-xs uppercase">{data.phone}</p>
-              <div className="flex flex-wrap text-xs gap-x-1">
-                <span className="flex items-center after-dot-break">
-                  {data.roomSize} m<sup>2</sup>
-                </span>
-                {/* <span className="flex gap-x-1 items-center">
-                  1 <PiBathtubThin size={16} color="slate" />
-                </span> */}
-              </div>
+    <Link href={`/room/${toSlug(data.name)}-${data.id}`} target="_blank">
+      <div className="rounded-lg cursor-pointer relative shadow-xl transform transition duration-500 hover:scale-110 max-h-[440px] flex flex-col">
+        <div className="h-[250px]">
+          {/* swiper */}
+          <SlideListingPage mainImage={data.image} images={data.photos} />
+        </div>
+        <span className="bg-white text-[8pt] text-gray-600 py-[5px] px-2 rounded-full absolute top-[5px] right-[5px] z-[1] shadow-md">
+          Còn trống
+        </span>
+        <div className="px-2 pt-1.5 pb-2 flex flex-col flex-1">
+          <div className="flex justify-between">
+            <p className="text-xs uppercase">{data.phone}</p>
+            <div className="flex flex-wrap text-xs gap-x-1">
+              <span className="flex items-center after-dot-break">
+                {data.roomSize} m<sup>2</sup>
+              </span>
             </div>
-            <p className="mt-1 font-medium text-xl">{data.name}</p>
-            <p className="text-sm text-slate-400">{data.motel.address}</p>
-            <div className="justify-between">
-              <div className="flex mt-2 items-baseline text-xl md:text-2xl  text-primary ">
-                {data.price.toLocaleString()}đ/{" "}
-                <span className="text-sm">tháng</span>
-              </div>{" "}
+          </div>
+          <div className="flex-1 mb-2">
+            <p className="mt-1 font-medium text-xl line-clamp-1">{data.name}</p>
+            <p className="text-sm text-slate-400 line-clamp-2">
+              {data.motel.address}
+            </p>
+          </div>
+          <div className="">
+            <div className="flex mt-2 items-baseline text-xl md:text-2xl text-primary ">
+              {data.price.toLocaleString()}đ/{" "}
+              <span className="text-sm">tháng</span>
+            </div>{" "}
+            <div className="h-4">
               {data.isFurnished && (
                 <p className="text-primary mt-1 ml-1 text-xs capitalize">
                   Bao gồm nội thất
@@ -326,7 +333,7 @@ export const ListItem = ({ data }) => {
             </div>
           </div>
         </div>
-      </a>
-    </div>
+      </div>
+    </Link>
   );
 };

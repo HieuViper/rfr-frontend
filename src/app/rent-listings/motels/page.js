@@ -1,6 +1,7 @@
 "use client";
 import Loading from "@/app/loading";
 import PaginationComp from "@/components/Pagination";
+import CardMotel from "@/components/card/CardMotel";
 import FilterAdvance from "@/components/filters/FilterAdvance";
 import FilterBudget from "@/components/filters/FilterBudget";
 import FilterLocation from "@/components/filters/FilterLocation";
@@ -8,11 +9,9 @@ import FilterType from "@/components/filters/FilterType";
 import Sort from "@/components/filters/Sort";
 import NoDataFound from "@/components/not-found/NoDataFound";
 import NotFound from "@/components/not-found/NotFound";
-import SlideListingPage from "@/components/slides/SlideListingPage";
 import TestGGmap1 from "@/components/test/TestGGmap1";
 import { usePRouter } from "@/hooks/usePRouter";
 import { useGet } from "@/lib/api";
-import { convertToAbbreviation, toSlug } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -156,7 +155,7 @@ const RentMotelList = ({ searchParams }) => {
       <section className="w-full border-b overflow-hidden sticky md:top-[80px] top-[56px] bg-white z-10">
         <div className="flex items-center gap-x-3 md:gap-x-5 overflow-x-auto p-2 md:p-4 xl:pl-10">
           {/* filter by location */}
-          <div className="">
+          <div className="flex">
             <FilterLocation
               data={cities}
               current={searchParams.cityId}
@@ -222,7 +221,7 @@ const RentMotelList = ({ searchParams }) => {
       ) : (
         <>
           <section className="grid grid-cols-12 gap-5 h-full relative ">
-            <div className="md:col-span-8 col-span-12 px-16">
+            <div className="md:col-span-8 col-span-12 md:px-16 px-8">
               <div className="my-2 md:my-4 text-[9pt] md:text-[11pt] mx-5 flex flex-row items-center">
                 <Link href={"/"}>
                   <AiOutlineHome size={20} />
@@ -260,7 +259,18 @@ const RentMotelList = ({ searchParams }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 2xl:gap-10">
                   {!isMotelsLoading &&
                     motels.list.map((item) => (
-                      <ListItem key={item.id} data={item} />
+                      <CardMotel
+                        key={item.id}
+                        address={item.address}
+                        contactPhone={item.contactPhone}
+                        id={item.id}
+                        image={item.image}
+                        name={item.name}
+                        roomAcreageFrom={item.roomAcreageFrom}
+                        roomAcreageTo={item.roomAcreageTo}
+                        roomPriceFrom={item.roomPriceFrom}
+                        roomPriceTo={item.roomPriceTo}
+                      />
                     ))}
                 </div>
 
@@ -287,48 +297,3 @@ const RentMotelList = ({ searchParams }) => {
 };
 
 export default RentMotelList;
-export const ListItem = ({ data }) => {
-  return (
-    <div className="rounded cursor-pointer relative shadow transform transition duration-500 hover:scale-110">
-      <a href={`/motel/${toSlug(data.name)}-${data.id}`} target="_blank">
-        <div>
-          <div className="h-[250px]">
-            {/* swiper */}
-            <SlideListingPage mainImage={data.image} images={data.photos} />
-          </div>
-          <span className="bg-white text-[8pt] text-gray-600 py-[5px] px-2 rounded-full absolute top-[5px] right-[5px] z-[1] shadow-md">
-            Còn trống
-          </span>
-          <div className="p-1 pt-1.5">
-            <div className="flex justify-between">
-              <p className="text-xs uppercase">{data.phone}</p>
-              <div className="flex flex-wrap text-xs gap-x-1">
-                <span className="flex items-center after-dot-break">
-                  {data.roomAcreageFrom} m<sup>2</sup>
-                </span>
-                <span className="flex items-center">
-                  {data.roomAcreageTo} m<sup>2</sup>
-                </span>
-                {/* <span className="flex gap-x-1 items-center">
-                  1 <PiBathtubThin size={16} color="slate" />
-                </span> */}
-              </div>
-            </div>
-            <p className="mt-1 font-medium text-xl">{data.name}</p>
-            <p className="text-sm text-slate-400">{data.address}</p>
-            <div className="justify-between">
-              <div className="flex mt-2 items-baseline text-xl md:text-2xl  text-teal-500 ">
-                {convertToAbbreviation(data.roomPriceFrom)} -{" "}
-                {convertToAbbreviation(data.roomPriceTo)} VND /{" "}
-                <span className="text-sm">tháng</span>
-              </div>{" "}
-              <p className="text-teal-500 mt-1 ml-1 text-xs capitalize">
-                Utilities included
-              </p>
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-  );
-};

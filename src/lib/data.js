@@ -21,13 +21,6 @@ export const arrayDataDistricts = [
       "Với nhiều trường học, công viên và các khu chợ truyền thống, Quận Gò Vấp mang đến không gian sống năng động, thân thiện và đầy đủ tiện ích.",
   },
   {
-    id: 553,
-    name: "Quận Bình Thạnh",
-    image: "/image/binh thanh.jpg",
-    description:
-      "Gần trung tâm nhưng vẫn giữ được nét yên bình với các khu biệt thự và công viên, Quận Bình Thạnh là nơi lý tưởng cho cuộc sống gia đình.",
-  },
-  {
     id: 554,
     name: "Quận Tân Bình",
     image: "/image/tan binh.jpg",
@@ -42,6 +35,13 @@ export const arrayDataDistricts = [
       "Với các khu dân cư mới phát triển và nhiều công viên, Quận Tân Phú là nơi sống lý tưởng cho gia đình với không gian xanh và tiện ích đầy đủ.",
   },
   {
+    id: 553,
+    name: "Quận Bình Thạnh",
+    image: "/image/binh thanh.jpg",
+    description:
+      "Gần trung tâm nhưng vẫn giữ được nét yên bình với các khu biệt thự và công viên, Quận Bình Thạnh là nơi lý tưởng cho cuộc sống gia đình.",
+  },
+  {
     id: 556,
     name: "Quận Phú Nhuận",
     image: "/image/phu nhuan.jpg",
@@ -50,10 +50,10 @@ export const arrayDataDistricts = [
   },
   {
     id: 557,
-    name: "Thành phố Thủ Đức",
+    name: "Thủ Đức",
     image: "/image/thu duc.jpg",
     description:
-      "Nổi tiếng với làng đại học và các khu công nghệ cao, Quận Thủ Đức là nơi lý tưởng cho các sinh viên và chuyên gia muốn tìm kiếm một môi trường sống học tập và làm việc chất lượng.",
+      "Nổi tiếng với làng đại học và các khu công nghệ cao, là nơi lý tưởng cho các sinh viên muốn tìm kiếm một môi trường sống học tập và làm việc chất lượng.",
   },
   {
     id: 558,
@@ -152,5 +152,50 @@ export const arrayDataDistricts = [
     image: "/image/can gio.jpg",
     description:
       "Huyện Cần Giờ nổi tiếng với khu bảo tồn thiên nhiên và biển Cần Giờ, mang đến không gian sống yên bình, trong lành và gần gũi với thiên nhiên.",
+  },
+];
+
+export const customerReviews = [
+  {
+    name: "Nguyễn Thị Thúy",
+    review:
+      "Hệ thống rất dễ sử dụng, tôi đã tìm được phòng trọ phù hợp trong thời gian ngắn. Dịch vụ hỗ trợ rất tốt.",
+    stars: 5,
+  },
+  {
+    name: "Lê Trọng Hiếu",
+    review:
+      "Phòng trọ được mô tả chính xác như trên hệ thống, nhưng giá thuê hơi cao so với mặt bằng chung.",
+    stars: 4,
+  },
+  {
+    name: "Nguyễn Trường Cao",
+    review:
+      "Tôi rất ấn tượng với sự nhanh chóng và tiện lợi khi sử dụng hệ thống để tìm phòng trọ. Giao diện thân thiện.",
+    stars: 5,
+  },
+  {
+    name: "Phạm Khánh Hằng",
+    review:
+      "Dịch vụ hỗ trợ khách hàng rất tốt, tôi đã được giải đáp mọi thắc mắc một cách nhanh chóng và chuyên nghiệp.",
+    stars: 5,
+  },
+  {
+    name: "Huỳnh Phúc Khang",
+    review:
+      "Phòng trọ đa dạng, dễ tìm kiếm, và thông tin chính xác. Tuy nhiên, một số hình ảnh không cập nhật mới.",
+    stars: 4,
+  },
+  {
+    name: "Nguyễn Trường Khả",
+    review:
+      "Tìm kiếm phòng trọ qua hệ thống rất tiện lợi, tiết kiệm nhiều thời gian so với cách truyền thống.",
+    stars: 4,
+  },
+  {
+    name: "Trần Ngọc Anh",
+    review:
+      "Rất hài lòng với hệ thống, tôi đã tìm được một phòng trọ ưng ý với giá cả phải chăng ngay gần nơi làm việc.",
+    stars: 5,
   },
 ];

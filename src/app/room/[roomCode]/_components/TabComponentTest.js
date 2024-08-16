@@ -5,10 +5,11 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { User2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FaHandsWash, FaShower, FaWifi } from "react-icons/fa";
 import { FaKitchenSet } from "react-icons/fa6";
-import { GiWashingMachine } from "react-icons/gi";
+import { GiFloorHatch, GiWashingMachine } from "react-icons/gi";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuSofa } from "react-icons/lu";
 import { MdMicrowave, MdPets } from "react-icons/md";
@@ -16,7 +17,7 @@ import { PiCookingPot, PiGenderIntersex, PiTelevision } from "react-icons/pi";
 import { SlHome } from "react-icons/sl";
 import { TbAirConditioning, TbFridge } from "react-icons/tb";
 
-const TabComponentTest = ({ data }) => {
+const TabComponentTest = ({ data, motelRegulation }) => {
   const descriptionContentRef = useRef();
   const detailsContentRef = useRef();
   const conditionsContentRef = useRef();
@@ -176,10 +177,13 @@ const TabComponentTest = ({ data }) => {
             Giới thiệu
           </p>
           <p className="text-sm px-3 whitespace-pre-line">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-            cupiditate iure quam, reiciendis, iste ipsam ipsum architecto quas
-            libero cumque vel laudantium non sint? Voluptas porro saepe nihil
-            voluptates dolorum!
+            {data?.room?.description ? (
+              <div
+                dangerouslySetInnerHTML={{ __html: data?.room?.description }}
+              />
+            ) : (
+              "Chưa có giới thiệu cho phòng trọ"
+            )}
           </p>
         </section>
         <hr className="w-10/12 md:w-6/12 m-auto bg-[#F1F1F1] mt-5 mb-10" />
@@ -201,7 +205,7 @@ const TabComponentTest = ({ data }) => {
                         <p className="font-semibold">Số tầng</p>
                       </div>
                       <div className="col-span-6 flex justify-end items-center gap-1">
-                        <SlHome />
+                        <GiFloorHatch />
                         <p>{data.room.floorNumber}</p>
                       </div>
                     </>
@@ -213,8 +217,7 @@ const TabComponentTest = ({ data }) => {
                         <p className="font-semibold">Mét vuông</p>
                       </div>
                       <div className="col-span-6 flex justify-end items-center gap-1">
-                        <SlHome />
-                        <p>{data?.room.roomSize}</p>
+                        <p>{data?.room.roomSize} m²</p>
                       </div>
                     </>
                   )}
@@ -224,7 +227,7 @@ const TabComponentTest = ({ data }) => {
                         <p className="font-semibold">Số người ở</p>
                       </div>
                       <div className="col-span-6 flex justify-end items-center gap-1">
-                        <SlHome />
+                        <User2Icon />
                         <p>{data?.room.numberOfRoommates}</p>
                       </div>
                     </>
@@ -235,8 +238,7 @@ const TabComponentTest = ({ data }) => {
                         <p className="font-semibold">Gác xếp</p>
                       </div>
                       <div className="col-span-6 flex justify-end items-center gap-1">
-                        <SlHome />
-                        <p>{data?.room.isGarret ? "Yes" : "No"}</p>
+                        <p>{data?.room.isGarret ? "Có" : "Không"}</p>
                       </div>
                     </>
                   )}
@@ -338,14 +340,9 @@ const TabComponentTest = ({ data }) => {
           </p>
           <div className="">
             <p className="font-semibold mt-2 mb-8 text-gray-600">
-              Landlord Terms and Conditions
+              Điều khoản và Điều kiện của chủ nhà
             </p>
-            <p className="text-sm">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt
-              quod cupiditate doloremque earum id consectetur cumque qui unde
-              molestias soluta error animi, natus distinctio nihil debitis
-              itaque voluptas, pariatur ea?
-            </p>
+            <p className="text-sm">{motelRegulation || "Không có điều kiện"}</p>
           </div>
         </section>
         <hr className="w-10/12 md:w-6/12 m-auto bg-[#F1F1F1] mt-5 mb-10" />
@@ -357,13 +354,14 @@ const TabComponentTest = ({ data }) => {
             <div className="flex justify-between items-start w-full mt-4 mb-8">
               <div className="font-semibold">Hàng tháng</div>
               <div className="text-base md:text-lg text-right font-normal text-primary ">
-                {data?.room.price.toLocaleString()}VND/month
+                {data?.room.price.toLocaleString()} VND/
+                <span className="text-sm">tháng</span>
               </div>
             </div>
             <div className="flex justify-between items-start w-full mt-4 mb-8">
               <div className="font-semibold">Cọc</div>
               <div className="text-base md:text-lg text-right font-normal">
-                {data?.room.price.toLocaleString()}VND
+                {data?.room.depositPrice?.toLocaleString() || 0} VND
               </div>
             </div>
           </div>
@@ -371,12 +369,38 @@ const TabComponentTest = ({ data }) => {
         <hr className="w-10/12 md:w-6/12 m-auto bg-[#F1F1F1] mt-5 mb-10" />
         <section className="pb-5 md:pb-15" ref={howToBookContentRef}>
           <p className="font-semibold mt-2 mb-8 text-3xl text-gray-600">
-            Làm thế nào để thuê phòng?
+            Câu hỏi thường gặp?
           </p>
-          <FaqItem />
-          <FaqItem />
-          <FaqItem />
-          <FaqItem />
+          <FaqItem
+            question={"Quy trình thuê phòng trên website như thế nào?"}
+            answer={`<p>👉 T&igrave;m kiếm v&agrave; chọn ph&ograve;ng trọ ph&ugrave; hợp với nhu cầu.</p>
+<p>👉 Li&ecirc;n hệ với chủ nh&agrave; hoặc quản l&yacute; qua th&ocirc;ng tin li&ecirc;n hệ c&oacute; tr&ecirc;n trang.</p>
+<p>👉 Đặt cọc v&agrave; k&yacute; hợp đồng trực tuyến hoặc trực tiếp.</p>
+<p>👉 Nhận ph&ograve;ng v&agrave; bắt đầu kỳ thu&ecirc; của bạn.</p>`}
+          />
+          <FaqItem
+            question={
+              "Tôi có thể đến xem phòng trực tiếp trước khi thuê không?"
+            }
+            answer={
+              "<b>Tất nhiên rồi!</b> Bạn có thể <b>liên hệ trực tiếp</b> với chủ nhà hoặc quản lý để đặt lịch hẹn xem phòng. Điều này giúp bạn <b>kiểm tra chất lượng và đảm bảo</b> đáp ứng nhu cầu thuê phòng của mình."
+            }
+          />
+          <FaqItem
+            question={"Tôi cần chuẩn bị giấy tờ gì để thuê phòng?"}
+            answer={`Bạn cần chuẩn bị các giấy tờ sau:
+                    <br/>
+                  1️⃣ <b>Chứng minh nhân dân hoặc hộ chiếu.</b>
+                    <br/>
+                  2️⃣ <b>Bằng chứng công việc hoặc thu nhập.</b> (nếu có yêu cầu).
+                    <br/>
+                  3️⃣ <b>Hợp đồng thuê nhà</b> (sẽ được cung cấp sau khi thỏa thuận).`}
+          />
+
+          <FaqItem
+            question={"Chính sách hủy hợp đồng thuê như thế nào?"}
+            answer={`Chính sách hủy hợp đồng sẽ <b>phụ thuộc vào thỏa thuận giữa bạn và chủ nhà</b>. Thông thường, nếu bạn muốn hủy hợp đồng, <b>bạn cần thông báo trước theo thời hạn quy định trong hợp đồng</b> và có thể sẽ mất một khoản phí hủy. Hãy đảm bảo đọc kỹ điều khoản trước khi ký kết.`}
+          />
         </section>
       </div>
     </>
@@ -385,7 +409,7 @@ const TabComponentTest = ({ data }) => {
 
 export default TabComponentTest;
 
-const FaqItem = () => {
+const FaqItem = ({ question, answer }) => {
   const [open, setOpen] = useState(false);
   const handleOpenChange = (e) => {
     setOpen(e);
@@ -398,14 +422,13 @@ const FaqItem = () => {
         open={open}
       >
         <CollapsibleTrigger className="flex py-1 justify-between items-center cursor-pointer text-black w-full">
-          Can I use this in my project?
+          {question}
           <IoIosArrowDown
             className={`transition ${open ? "rotate-180" : ""}`}
           />
         </CollapsibleTrigger>
         <CollapsibleContent className="text-black mt-4 text-sm">
-          Yes. Free to use for personal and commercial projects. No attribution
-          required.
+          <div dangerouslySetInnerHTML={{ __html: answer }} />
         </CollapsibleContent>
       </Collapsible>
     </>

@@ -21,9 +21,23 @@ const PaginationComp = (props) => {
   const pagesCount = Math.ceil(total / pageSize);
 
   if (pagesCount === 1) return null;
-  const pages = Array.from({ length: pagesCount }, (_, i) => {
-    return i + 1;
-  });
+
+  function getVisiblePages(totalPages, currentPage, pageVisible) {
+    let startPage = Math.max(currentPage - Math.floor(pageVisible / 2), 1);
+    let endPage = startPage + pageVisible - 1;
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(endPage - pageVisible + 1, 1);
+    }
+    const pages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  const pageVisible = 5;
+  const pages = getVisiblePages(pagesCount, pageIndex, pageVisible);
   return (
     <Pagination>
       <PaginationContent>
@@ -37,9 +51,6 @@ const PaginationComp = (props) => {
         {pages.map((page) => (
           <PaginationItem key={page}>
             <PaginationLink
-              // onClick={() =>
-              // console.log(`${url}?pageIndex=${page}&pageSize=${pageSize}`)
-              // }
               href={`${newUrl}&pageIndex=${page}&pageSize=${pageSize}`}
               isActive={page === pageIndex}
               className="cursor-pointer"
