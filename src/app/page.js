@@ -1,13 +1,12 @@
+export const revalidate = 3600; // revalidate at most every hour
+
 import FormHomepage from "@/components/forms/FormHomepage";
 import SlideHomepage from "@/components/slides/SlideHomepage";
 import Image from "next/image";
 
 async function getRoomByDistrict(cityId, districtId) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/rooms/filter-rooms?cityId=${cityId}&districtId=${districtId}&pageIndex=1&pageSize=10`,
-    {
-      cache: "no-store",
-    }
+    `${process.env.NEXT_PUBLIC_API_URL}/rooms/filter-rooms?cityId=${cityId}&districtId=${districtId}&pageIndex=1&pageSize=10`
   );
   return res.json();
 }
